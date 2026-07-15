@@ -1,12 +1,20 @@
 {
   "manifest_version": 3,
-  "name": "Shopify Stores Unified Search",
-  "version": "1.2.0",
-  "description": "Toggle unified store search or native Legacy tabs on the Shopify Dev Dashboard.",
+  "name": "Shopify Stores Search",
+  "version": "1.2.4",
+  "description": "Search Dev, Client transfer, and Collaborations stores in one place on the Shopify Dev Dashboard.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Shopify Stores Search",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
   },
   "host_permissions": ["https://dev.shopify.com/*"],
   "content_scripts": [

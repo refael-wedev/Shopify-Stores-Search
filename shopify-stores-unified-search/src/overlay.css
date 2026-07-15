@@ -2,53 +2,72 @@
   display: none !important;
 }
 
+/* Match native stores header strip inside the bordered table card */
 .ssus-inline {
   width: 100%;
-  padding: 10px 12px 8px;
-  border-bottom: 1px solid #24393d;
-  background: #151d1e;
+  padding: 8px;
+  background: transparent;
   font-family: inherit;
   font-size: 13px;
-  color: #e3e3e6;
+  font-weight: 500;
+  line-height: 20px;
+  color: #d7d7db;
 }
 
 .ssus-inline * {
   box-sizing: border-box;
 }
 
+/* Match native [role="tablist"] + tab pills (Dev / Client transfer / Collaborations) */
 .ssus-switcher {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 2px;
-  border-radius: 8px;
-  background: #121314;
-  border: 1px solid #3d494b;
+  gap: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
 }
 
 .ssus-switcher__btn {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
   height: 28px;
-  padding: 0 10px;
+  min-height: 28px;
+  margin: 0 8px 0 0;
+  padding: 4px 8px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 8px;
   background: transparent;
-  color: #8a8a93;
+  color: #abb1b8;
   cursor: pointer;
-  font-size: 12px;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 500;
+  line-height: 20px;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .ssus-switcher__btn:hover {
-  color: #e3e3e6;
+  background: #20292b;
+  color: #abb1b8;
 }
 
 .ssus-switcher__btn--active {
   background: #3d494b;
-  color: #fff;
+  color: #ffffff;
+}
+
+.ssus-switcher__btn--active:hover {
+  background: #3d494b;
+  color: #ffffff;
 }
 
 .ssus-unified-panel {
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .ssus-unified-panel[hidden] {
@@ -56,13 +75,16 @@
 }
 
 .ssus-inline[data-mode="legacy"] {
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 }
 
+/* Match native search row: role="search" + Cancel */
 .ssus-inline__bar {
   display: flex;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  height: 32px;
 }
 
 .ssus-inline__search {
@@ -72,15 +94,15 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 0 8px;
+  padding: 4px;
   border-radius: 8px;
-  border: 1px solid #3d494b;
-  background: #121314;
+  border: 1px solid #2e3739;
+  background: #20292b;
 }
 
 .ssus-inline__search:focus-within {
-  border-color: var(--color-light-azure-11, #5c8ef4);
-  box-shadow: 0 0 0 2px rgba(92, 142, 244, 0.25);
+  border-color: #4c6063;
+  box-shadow: 0 0 0 2px #2870cc;
 }
 
 .ssus-inline__icon {
@@ -93,31 +115,44 @@
   height: 100%;
   border: 0;
   padding: 0;
+  appearance: none;
   background: transparent;
-  color: #e3e3e6;
+  color: #d7d7db;
+  font-family: inherit;
   font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
   outline: none;
 }
 
 .ssus-inline__input::placeholder {
-  color: #8a8a93;
+  color: #abb1b8;
 }
 
 .ssus-inline__clear {
   flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: 32px;
-  padding: 0 10px;
-  border-radius: 8px;
+  min-height: 32px;
+  padding: 4px 8px;
   border: 0;
+  border-radius: 8px;
   background: transparent;
-  color: #b5b5bc;
+  color: #abb1b8;
   cursor: pointer;
+  font-family: inherit;
   font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .ssus-inline__clear:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
+  background: #20292b;
+  color: #abb1b8;
 }
 
 .ssus-inline__meta {
@@ -129,18 +164,21 @@
 }
 
 .ssus-inline__status {
-  font-size: 12px;
-  color: #8a8a93;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #abb1b8;
 }
 
 .ssus-inline__status--error {
-  color: #f87171;
+  color: #e87b7b;
 }
 
 .ssus-inline__errors {
   margin-top: 6px;
-  font-size: 11px;
-  color: #f87171;
+  font-size: 13px;
+  font-weight: 500;
+  color: #e87b7b;
 }
 
 .ssus-type-badges {
@@ -156,6 +194,7 @@
   border-radius: 6px;
   font-size: 11px;
   font-weight: 600;
+  line-height: 16px;
   white-space: nowrap;
 }
 
@@ -175,15 +214,22 @@
 }
 
 .ssus-result-row:hover > td {
-  background: rgba(255, 255, 255, 0.03);
+  background: #20292b;
 }
 
 .ssus-empty-cell {
   padding: 24px 12px !important;
   text-align: center;
-  color: #8a8a93;
+  color: #abb1b8;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .ssus-store-link {
   text-decoration: none;
+  color: inherit;
+}
+
+.ssus-store-link:hover {
+  text-decoration: underline;
 }
