@@ -1,6 +1,9 @@
 # Shopify Stores Unified Search
 
-Chrome extension that replaces the native Dev / Client transfer / Collaborations tabs on the Shopify Dev Dashboard **Stores** page with one unified search across all store types.
+Chrome extension for the Shopify Dev Dashboard **Stores** page. Adds a mode switcher so you can use either:
+
+- **Unified search** — one search box across Dev, Client transfer, and Collaborations
+- **Legacy** — the original Shopify tabs and search
 
 ## Install (unpacked)
 
@@ -12,21 +15,21 @@ Chrome extension that replaces the native Dev / Client transfer / Collaborations
 ## Usage
 
 1. Go to `https://dev.shopify.com/dashboard/{orgId}/stores`
-2. The old tabs are replaced by a single search box in that same header area
-3. Type a store name — results from all tabs appear in the main table
+2. Use the **Unified search / Legacy** switcher at the top of the stores table
+3. In Unified mode, type a store name — results from all tabs appear in the main table
 4. The **Type** column shows badges: Dev / Client transfer / Collaborations
 5. Click a result to open the store in a new tab
 
-**Keyboard shortcut:** `Cmd+K` (Mac) or `Ctrl+K` (Windows/Linux) focuses the search box.
-
-**Clear** restores the current page’s native store list for the active URL tab.
+Your chosen mode is remembered for next visits.
 
 ## How it works
 
-The extension hides the native tab strip and injects a search bar in its place. On search it fetches each tab’s URL in parallel using your login session:
+In Unified mode, the extension hides the native tab strip and searches each tab URL in parallel using your login session:
 
 ```
 /dashboard/{orgId}/stores?store_type={type}&search_term={query}
 ```
 
 Results are parsed from `#stores-table` and rendered into the main table with type badges.
+
+In Legacy mode, the original Dev Dashboard UI is shown unchanged.

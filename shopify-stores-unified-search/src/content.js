@@ -2,6 +2,9 @@
   const ROOT_ID = "ssus-inline-root";
   const RESULTS_BODY_ID = "ssus-results-body";
   const HIDDEN_CLASS = "ssus-hidden-native";
+  const MODE_KEY = "ssus-search-mode";
+  const MODE_UNIFIED = "unified";
+  const MODE_LEGACY = "legacy";
 
   const FALLBACK_STORE_TYPES = [
     { type: "dev", label: "Dev" },
@@ -20,6 +23,28 @@
   let lastQuery = "";
   let observer = null;
   let injecting = false;
+  let currentMode = getStoredMode();
+
+  function getStoredMode() {
+    try {
+      const stored = localStorage.getItem(MODE_KEY);
+      if (stored === MODE_LEGACY || stored === MODE_UNIFIED) {
+        return stored;
+      }
+    } catch (_error) {
+      // ignore storage errors
+    }
+    return MODE_UNIFIED;
+  }
+
+  function setStoredMode(mode) {
+    currentMode = mode;
+    try {
+      localStorage.setItem(MODE_KEY, mode);
+    } catch (_error) {
+      // ignore storage errors
+    }
+  }
 
   function getOrgId() {
     const match = window.location.pathname.match(/\/dashboard\/(\d+)\/stores/);
@@ -37,12 +62,8 @@
     );
   }
 
-  function getNativeTableWrap(frame) {
-    return frame.querySelector(".overflow-x-auto.w-full") || frame.querySelector(".overflow-x-auto");
-  }
-
   function getNativeTbody(frame) {
-    return frame.querySelector("table tbody");
+    return frame.querySelector("table tbody:not(#ssus-results-body)");
   }
 
   function getNativePagination(frame) {
@@ -113,6 +134,7 @@
 
       const domainEl = row.querySelector("p.text-body-minor");
       const iconEl = row.querySelector(".store-icon");
+      const createdCell = row.querySelector("td:nth-of-type(7) span.flex-1");
 
       results.push({
         name,
@@ -124,10 +146,7 @@
         owner: cellText(row, 4),
         plan: cellText(row, 5),
         featurePreview: cellText(row, 6),
-        created: (() => {
-          const createdCell = row.querySelector("td:nth-of-type(7) span.flex-1");
-          return createdCell ? createdCell.textContent.trim() : cellText(row, 7);
-        })(),
+        created: createdCell ? createdCell.textContent.trim() : cellText(row, 7),
         storeType,
         label,
       });
@@ -200,32 +219,41 @@
     return { results: dedupeResults(results), errors };
   }
 
-  function createSearchUi() {
+  function createRootUi() {
     const root = document.createElement("div");
     root.id = ROOT_ID;
     root.className = "ssus-inline";
     root.innerHTML = `
-      <div class="ssus-inline__bar">
-        <div class="ssus-inline__search" role="search">
-          <svg class="ssus-inline__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.1842 12.2394C11.3383 12.8812 10.2837 13.2625 9.14061 13.2625C6.35883 13.2625 4.10311 11.0068 4.10311 8.225C4.10311 5.44323 6.35883 3.1875 9.14061 3.1875C11.9224 3.1875 14.1781 5.44323 14.1781 8.225C14.1781 9.36808 13.7968 10.4227 13.155 11.2686L15.8089 13.9225C16.0773 14.1909 16.0773 14.6261 15.8089 14.8945C15.5405 15.1629 15.1053 15.1629 14.8369 14.8945L12.1842 12.2394ZM12.8031 8.225C12.8031 10.2475 11.1631 11.8875 9.14061 11.8875C7.11812 11.8875 5.47811 10.2475 5.47811 8.225C5.47811 6.20252 7.11812 4.5625 9.14061 4.5625C11.1631 4.5625 12.8031 6.20252 12.8031 8.225Z" fill="#D7D7DB"></path>
-          </svg>
-          <input
-            class="ssus-inline__input"
-            type="search"
-            placeholder="Search all stores (Dev, Client transfer, Collaborations)"
-            autocomplete="off"
-            spellcheck="false"
-            aria-label="Search all stores"
-          />
+      <div class="ssus-switcher" role="tablist" aria-label="Store search mode">
+        <button type="button" class="ssus-switcher__btn" data-mode="unified" role="tab">
+          Unified search
+        </button>
+        <button type="button" class="ssus-switcher__btn" data-mode="legacy" role="tab">
+          Legacy
+        </button>
+      </div>
+      <div class="ssus-unified-panel">
+        <div class="ssus-inline__bar">
+          <div class="ssus-inline__search" role="search">
+            <svg class="ssus-inline__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.1842 12.2394C11.3383 12.8812 10.2837 13.2625 9.14061 13.2625C6.35883 13.2625 4.10311 11.0068 4.10311 8.225C4.10311 5.44323 6.35883 3.1875 9.14061 3.1875C11.9224 3.1875 14.1781 5.44323 14.1781 8.225C14.1781 9.36808 13.7968 10.4227 13.155 11.2686L15.8089 13.9225C16.0773 14.1909 16.0773 14.6261 15.8089 14.8945C15.5405 15.1629 15.1053 15.1629 14.8369 14.8945L12.1842 12.2394ZM12.8031 8.225C12.8031 10.2475 11.1631 11.8875 9.14061 11.8875C7.11812 11.8875 5.47811 10.2475 5.47811 8.225C5.47811 6.20252 7.11812 4.5625 9.14061 4.5625C11.1631 4.5625 12.8031 6.20252 12.8031 8.225Z" fill="#D7D7DB"></path>
+            </svg>
+            <input
+              class="ssus-inline__input"
+              type="search"
+              placeholder="Search all stores (Dev, Client transfer, Collaborations)"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Search all stores"
+            />
+          </div>
+          <button type="button" class="ssus-inline__clear" hidden>Clear</button>
         </div>
-        <button type="button" class="ssus-inline__clear" hidden>Clear</button>
+        <div class="ssus-inline__meta">
+          <span class="ssus-inline__status">Unified search across all store types</span>
+        </div>
+        <div class="ssus-inline__errors" hidden></div>
       </div>
-      <div class="ssus-inline__meta">
-        <span class="ssus-inline__status">Unified search across all store types</span>
-        <span class="ssus-inline__hint"><kbd>⌘</kbd>/<kbd>Ctrl</kbd>+<kbd>K</kbd></span>
-      </div>
-      <div class="ssus-inline__errors" hidden></div>
     `;
     return root;
   }
@@ -247,14 +275,11 @@
     errorsEl.textContent = errors.join(" · ");
   }
 
-  function hideNativeChrome(frame) {
-    const header = getNativeHeader(frame);
-    const pagination = getNativePagination(frame);
-    if (header) {
-      header.classList.add(HIDDEN_CLASS);
-    }
-    if (pagination) {
-      pagination.classList.add(HIDDEN_CLASS);
+  function updateSwitcherButtons(root) {
+    for (const btn of root.querySelectorAll(".ssus-switcher__btn")) {
+      const active = btn.dataset.mode === currentMode;
+      btn.classList.toggle("ssus-switcher__btn--active", active);
+      btn.setAttribute("aria-selected", active ? "true" : "false");
     }
   }
 
@@ -270,8 +295,50 @@
     }
 
     const pagination = getNativePagination(frame);
-    if (pagination) {
+    if (pagination && currentMode === MODE_LEGACY) {
       pagination.classList.remove(HIDDEN_CLASS);
+    }
+  }
+
+  function applyMode(frame, root) {
+    const nativeHeader = getNativeHeader(frame);
+    const unifiedPanel = root.querySelector(".ssus-unified-panel");
+    const pagination = getNativePagination(frame);
+
+    updateSwitcherButtons(root);
+    root.dataset.mode = currentMode;
+
+    if (currentMode === MODE_LEGACY) {
+      if (nativeHeader) {
+        nativeHeader.classList.remove(HIDDEN_CLASS);
+      }
+      unifiedPanel.hidden = true;
+      restoreNativeTable(frame);
+      if (pagination) {
+        pagination.classList.remove(HIDDEN_CLASS);
+      }
+      return;
+    }
+
+    if (nativeHeader) {
+      nativeHeader.classList.add(HIDDEN_CLASS);
+    }
+    unifiedPanel.hidden = false;
+
+    if (lastQuery.trim()) {
+      const input = root.querySelector(".ssus-inline__input");
+      const clearBtn = root.querySelector(".ssus-inline__clear");
+      if (input) {
+        input.value = lastQuery;
+      }
+      if (clearBtn) {
+        clearBtn.hidden = false;
+      }
+    } else {
+      restoreNativeTable(frame);
+      if (pagination) {
+        pagination.classList.remove(HIDDEN_CLASS);
+      }
     }
   }
 
@@ -400,6 +467,10 @@
     const storeTypes = discoverStoreTypes(frame);
 
     async function runSearch(query) {
+      if (currentMode !== MODE_UNIFIED) {
+        return;
+      }
+
       const trimmed = query.trim();
       lastQuery = trimmed;
       const generation = ++searchGeneration;
@@ -416,7 +487,7 @@
       setErrors(root, []);
 
       const { results, errors } = await searchAll(trimmed, storeTypes);
-      if (generation !== searchGeneration) {
+      if (generation !== searchGeneration || currentMode !== MODE_UNIFIED) {
         return;
       }
 
@@ -442,6 +513,25 @@
       }, 300);
     }
 
+    for (const btn of root.querySelectorAll(".ssus-switcher__btn")) {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.mode;
+        if (mode !== MODE_UNIFIED && mode !== MODE_LEGACY) {
+          return;
+        }
+        if (mode === currentMode) {
+          return;
+        }
+
+        setStoredMode(mode);
+        applyMode(frame, root);
+
+        if (mode === MODE_UNIFIED && lastQuery.trim()) {
+          runSearch(lastQuery);
+        }
+      });
+    }
+
     input.addEventListener("input", () => {
       scheduleSearch(input.value);
     });
@@ -457,24 +547,9 @@
       input.focus();
     });
 
-    if (!document.documentElement.dataset.ssusHotkeyBound) {
-      document.documentElement.dataset.ssusHotkeyBound = "1";
-      document.addEventListener("keydown", (event) => {
-        const isModK = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
-        if (!isModK) {
-          return;
-        }
-        const currentInput = document.querySelector(`#${ROOT_ID} .ssus-inline__input`);
-        if (!currentInput) {
-          return;
-        }
-        event.preventDefault();
-        currentInput.focus();
-        currentInput.select();
-      });
-    }
+    applyMode(frame, root);
 
-    if (lastQuery) {
+    if (currentMode === MODE_UNIFIED && lastQuery) {
       input.value = lastQuery;
       clearBtn.hidden = false;
       runSearch(lastQuery);
@@ -502,9 +577,9 @@
 
     injecting = true;
     try {
-      hideNativeChrome(frame);
-      const root = createSearchUi();
-      nativeHeader.insertAdjacentElement("afterend", root);
+      currentMode = getStoredMode();
+      const root = createRootUi();
+      nativeHeader.insertAdjacentElement("beforebegin", root);
       wireUi(root, frame);
     } finally {
       injecting = false;
