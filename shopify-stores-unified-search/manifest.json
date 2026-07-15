@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Shopify Stores Unified Search",
-  "version": "1.0.0",
-  "description": "Search all Dev Dashboard store tabs (Dev, Client transfer, Collaborations) at once.",
+  "version": "1.1.0",
+  "description": "Replace Dev Dashboard store tabs with one unified search across all store types.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
