@@ -1,0 +1,203 @@
+#ssus-root {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2147483646;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #e3e3e6;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  border-radius: 12px;
+  border: 1px solid #3d494b;
+  background: #1a1b1d;
+  overflow: hidden;
+}
+
+#ssus-root * {
+  box-sizing: border-box;
+}
+
+.ssus-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #3d494b;
+  background: #252627;
+}
+
+.ssus-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: #fff;
+}
+
+.ssus-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #3d494b;
+}
+
+.ssus-search-input {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid #3d494b;
+  background: #121314;
+  color: #e3e3e6;
+  font-size: 13px;
+  outline: none;
+}
+
+.ssus-search-input:focus {
+  border-color: #5c8ef4;
+  box-shadow: 0 0 0 2px rgba(92, 142, 244, 0.25);
+}
+
+.ssus-search-input::placeholder {
+  color: #8a8a93;
+}
+
+.ssus-clear-btn {
+  flex: none;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid #3d494b;
+  background: transparent;
+  color: #b5b5bc;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.ssus-clear-btn:hover {
+  background: #2d2e30;
+  color: #fff;
+}
+
+.ssus-status {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #8a8a93;
+  border-bottom: 1px solid #3d494b;
+}
+
+.ssus-status.ssus-status-error {
+  color: #f87171;
+}
+
+.ssus-results {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.ssus-results:empty {
+  display: none;
+}
+
+.ssus-result {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-bottom: 1px solid #2d2e30;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ssus-result:hover,
+.ssus-result:focus-visible {
+  background: #2d2e30;
+  outline: none;
+}
+
+.ssus-result:last-child {
+  border-bottom: none;
+}
+
+.ssus-result-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ssus-result-name {
+  font-weight: 500;
+  color: #fff;
+  word-break: break-word;
+}
+
+.ssus-badge {
+  flex: none;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.ssus-badge-dev {
+  background: #1e3a5f;
+  color: #93c5fd;
+}
+
+.ssus-badge-client_transfer {
+  background: #3b2f1e;
+  color: #fcd34d;
+}
+
+.ssus-badge-collaborations {
+  background: #1e3b34;
+  color: #6ee7b7;
+}
+
+.ssus-result-meta {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #8a8a93;
+}
+
+.ssus-empty {
+  padding: 16px 12px;
+  text-align: center;
+  color: #8a8a93;
+  font-size: 12px;
+}
+
+.ssus-errors {
+  padding: 8px 12px 0;
+  font-size: 11px;
+  color: #f87171;
+}
+
+.ssus-errors:empty {
+  display: none;
+}
+
+.ssus-kbd-hint {
+  font-size: 11px;
+  color: #6b6b73;
+}
+
+.ssus-kbd-hint kbd {
+  display: inline-block;
+  padding: 1px 4px;
+  border-radius: 4px;
+  border: 1px solid #3d494b;
+  background: #121314;
+  font-size: 10px;
+  font-family: inherit;
+}

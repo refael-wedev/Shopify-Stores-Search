@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Shopify Stores Unified Search",
+  "version": "1.0.0",
+  "description": "Search all Dev Dashboard store tabs (Dev, Client transfer, Collaborations) at once.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "host_permissions": ["https://dev.shopify.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://dev.shopify.com/dashboard/*/stores*"],
+      "js": ["src/content.js"],
+      "css": ["src/overlay.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

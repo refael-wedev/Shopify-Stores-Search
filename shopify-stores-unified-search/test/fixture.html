@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Parser fixture (local dev only)</title>
+  </head>
+  <body>
+    <div id="stores-table">
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <div>
+                  <div class="store-icon">HLJ</div>
+                  <div><a href="https://admin.shopify.com/store/hlj-example">HLJ Store</a></div>
+                </div>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Grow</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>
+                <div>
+                  <div class="store-icon">PDS</div>
+                  <div>
+                    <a href="https://admin.shopify.com/store/premier-dead-sea">
+                      Premier Dead Sea International Website
+                    </a>
+                  </div>
+                </div>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Basic</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      const doc = document;
+      const table = doc.querySelector("#stores-table");
+      const results = [];
+      for (const row of table.querySelectorAll("tbody tr")) {
+        const link = row.querySelector("td a[href]");
+        if (!link) continue;
+        results.push({
+          name: link.textContent.trim(),
+          href: link.getAttribute("href"),
+          plan: row.querySelector("td:nth-of-type(5)")?.textContent.trim() || "",
+        });
+      }
+      console.log("fixture parse results:", results);
+    </script>
+  </body>
+</html>
