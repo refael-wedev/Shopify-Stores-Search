@@ -93,6 +93,7 @@ Shopify-Stores-Search/
 ## Notes
 
 - Display name in Chrome: **Shopify Stores Search**
+- Current version: see `manifest.json` (`version`)
 - Org ID is read from the page URL — no hardcoding needed
 - The extension only runs on Dev Dashboard Stores pages
 - This is an unpacked / local extension (not published to the Chrome Web Store)
