@@ -8,11 +8,11 @@ Search all store types in one place — **Dev**, **Client transfer**, and **Coll
 
 - **Unified search** — one search box across all store types
 - **Type badges** — each result shows Dev / Client transfer / Collaborations
-- **Legacy mode** — switch back to the original Shopify tabs and search anytime
-- **Mode remembered** — your Unified / Legacy choice is saved in the browser
-- **Native look** — switcher and search styled like the Dev Dashboard tabs/search
+- **Native look** — search styled like the Dev Dashboard search field
 - **Open in new tab** — clicking a store opens it in a new tab
 - Uses your existing Shopify login (no API keys)
+
+> Note: A Unified / Legacy switcher exists in the code but is commented out for this version. Only unified search is shown.
 
 ## Install (Load unpacked)
 
@@ -37,23 +37,16 @@ On `chrome://extensions`, click the **reload** icon on this extension, then hard
 
 ## Usage
 
-1. At the top of the stores table you’ll see a switcher styled like the native tabs:
-   - **Unified search**
-   - **Legacy**
-2. Choose **Unified search**
-3. Type a store name (for example `preme` or `hol`)
-4. Results from all tabs appear in the main table
-5. The **Type** column shows which tab each store came from
-6. Click a store to open it in a new tab
-7. Use **Clear** to reset the unified search and show the current page list again
-
-Switch to **Legacy** anytime to use Shopify’s original Dev / Client transfer / Collaborations tabs and search.
-
-Your chosen mode is kept for the next visit.
+1. At the top of the stores table you’ll see the unified search box
+2. Type a store name (for example `preme` or `hol`)
+3. Results from all tabs appear in the main table
+4. The **Type** column shows which tab each store came from
+5. Click a store to open it in a new tab
+6. Use **Clear** to reset the search and show the current page list again
 
 ## How it works
 
-In Unified mode, the extension hides the native tab strip and runs the same search Shopify uses, once per store type, in parallel:
+The extension hides the native tab strip and runs the same search Shopify uses, once per store type, in parallel:
 
 ```
 /dashboard/{orgId}/stores?store_type=dev&search_term={query}
@@ -62,8 +55,6 @@ In Unified mode, the extension hides the native tab strip and runs the same sear
 ```
 
 It parses `#stores-table` from each response, merges the results, and renders them into the main table with type badges.
-
-In Legacy mode, the original Dev Dashboard UI is shown unchanged (with the Unified / Legacy switcher still available above it).
 
 ## Project structure
 
@@ -76,7 +67,7 @@ shopify-stores-unified-search/
 │   ├── icon48.png
 │   └── icon128.png
 └── src/
-    ├── content.js         # Injects UI, mode switcher, and search
+    ├── content.js         # Injects UI and search (Legacy switcher commented out)
     └── overlay.css        # Styles matched to Dev Dashboard
 ```
 

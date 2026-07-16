@@ -2,9 +2,10 @@
   const ROOT_ID = "ssus-inline-root";
   const RESULTS_BODY_ID = "ssus-results-body";
   const HIDDEN_CLASS = "ssus-hidden-native";
-  const MODE_KEY = "ssus-search-mode";
+  // Switcher / Legacy mode kept for later — disabled in this version.
+  // const MODE_KEY = "ssus-search-mode";
+  // const MODE_LEGACY = "legacy";
   const MODE_UNIFIED = "unified";
-  const MODE_LEGACY = "legacy";
 
   const FALLBACK_STORE_TYPES = [
     { type: "dev", label: "Dev" },
@@ -23,8 +24,10 @@
   let lastQuery = "";
   let observer = null;
   let injecting = false;
-  let currentMode = getStoredMode();
+  // Always unified while the Legacy switcher is disabled.
+  let currentMode = MODE_UNIFIED;
 
+  /*
   function getStoredMode() {
     try {
       const stored = localStorage.getItem(MODE_KEY);
@@ -45,6 +48,7 @@
       // ignore storage errors
     }
   }
+  */
 
   function getOrgId() {
     const match = window.location.pathname.match(/\/dashboard\/(\d+)\/stores/);
@@ -224,6 +228,7 @@
     root.id = ROOT_ID;
     root.className = "ssus-inline";
     root.innerHTML = `
+      <!-- Switcher / Legacy mode kept for later
       <div class="ssus-switcher" role="tablist" aria-label="Store search mode">
         <button type="button" class="ssus-switcher__btn" data-mode="unified" role="tab">
           Unified search
@@ -232,6 +237,7 @@
           Legacy
         </button>
       </div>
+      -->
       <div class="ssus-unified-panel">
         <div class="ssus-inline__bar">
           <div class="ssus-inline__search" role="search">
@@ -275,6 +281,7 @@
     errorsEl.textContent = errors.join(" · ");
   }
 
+  /*
   function updateSwitcherButtons(root) {
     for (const btn of root.querySelectorAll(".ssus-switcher__btn")) {
       const active = btn.dataset.mode === currentMode;
@@ -282,6 +289,7 @@
       btn.setAttribute("aria-selected", active ? "true" : "false");
     }
   }
+  */
 
   function restoreNativeTable(frame) {
     const existing = document.getElementById(RESULTS_BODY_ID);
@@ -295,7 +303,11 @@
     }
 
     const pagination = getNativePagination(frame);
-    if (pagination && currentMode === MODE_LEGACY) {
+    // Legacy-only pagination restore kept for later:
+    // if (pagination && currentMode === MODE_LEGACY) {
+    //   pagination.classList.remove(HIDDEN_CLASS);
+    // }
+    if (pagination) {
       pagination.classList.remove(HIDDEN_CLASS);
     }
   }
@@ -305,9 +317,11 @@
     const unifiedPanel = root.querySelector(".ssus-unified-panel");
     const pagination = getNativePagination(frame);
 
-    updateSwitcherButtons(root);
+    // updateSwitcherButtons(root);
+    currentMode = MODE_UNIFIED;
     root.dataset.mode = currentMode;
 
+    /*
     if (currentMode === MODE_LEGACY) {
       if (nativeHeader) {
         nativeHeader.classList.remove(HIDDEN_CLASS);
@@ -319,6 +333,7 @@
       }
       return;
     }
+    */
 
     if (nativeHeader) {
       nativeHeader.classList.add(HIDDEN_CLASS);
@@ -513,6 +528,7 @@
       }, 300);
     }
 
+    /*
     for (const btn of root.querySelectorAll(".ssus-switcher__btn")) {
       btn.addEventListener("click", () => {
         const mode = btn.dataset.mode;
@@ -531,6 +547,7 @@
         }
       });
     }
+    */
 
     input.addEventListener("input", () => {
       scheduleSearch(input.value);
@@ -577,7 +594,8 @@
 
     injecting = true;
     try {
-      currentMode = getStoredMode();
+      // currentMode = getStoredMode();
+      currentMode = MODE_UNIFIED;
       const root = createRootUi();
       nativeHeader.insertAdjacentElement("beforebegin", root);
       wireUi(root, frame);

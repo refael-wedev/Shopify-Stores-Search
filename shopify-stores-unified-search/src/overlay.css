@@ -18,7 +18,7 @@
   box-sizing: border-box;
 }
 
-/* Match native [role="tablist"] + tab pills (Dev / Client transfer / Collaborations) */
+/* Switcher / Legacy mode kept for later — disabled in this version
 .ssus-switcher {
   display: flex;
   align-items: center;
@@ -66,16 +66,17 @@
   color: #ffffff;
 }
 
+.ssus-inline[data-mode="legacy"] {
+  padding-bottom: 8px;
+}
+*/
+
 .ssus-unified-panel {
-  margin-top: 8px;
+  margin-top: 0;
 }
 
 .ssus-unified-panel[hidden] {
   display: none !important;
-}
-
-.ssus-inline[data-mode="legacy"] {
-  padding-bottom: 8px;
 }
 
 /* Match native search row: role="search" + Cancel */
