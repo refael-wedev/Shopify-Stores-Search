@@ -14,9 +14,22 @@ Search all store types in one place — **Dev**, **Client transfer**, and **Coll
 
 > Note: A Unified / Legacy switcher exists in the code but is commented out for this version. Only unified search is shown.
 
-## Install (Load unpacked)
+## Clone and install in Chrome
 
-1. Open Chrome and go to `chrome://extensions`
+Yes — after cloning (or downloading) this repo, install it as an unpacked Chrome extension.
+
+### 1. Clone or download
+
+```bash
+git clone https://github.com/refael-wedev/Shopify-Stores-Search.git
+cd Shopify-Stores-Search
+```
+
+Or on GitHub: **Code** → **Download ZIP** → unzip.
+
+### 2. Load unpacked in Chrome
+
+1. Open `chrome://extensions`
 2. Turn on **Developer mode** (top right)
 3. Click **Load unpacked**
 4. Select this folder:
@@ -25,15 +38,27 @@ Search all store types in one place — **Dev**, **Client transfer**, and **Coll
 shopify-stores-unified-search
 ```
 
-5. Open your Stores page:
+If you cloned the full repo, the full path looks like:
+
+```
+Shopify-Stores-Search/shopify-stores-unified-search
+```
+
+Select the folder that contains `manifest.json`.
+
+5. Open your Stores page (logged into Shopify):
 
 ```
 https://dev.shopify.com/dashboard/{orgId}/stores
 ```
 
-### After code updates
+### 3. After updates (`git pull`)
 
-On `chrome://extensions`, click the **reload** icon on this extension, then hard-refresh the Stores page.
+```bash
+git pull
+```
+
+Then on `chrome://extensions`, click the **reload** icon on this extension, and hard-refresh the Stores page.
 
 ## Usage
 
@@ -83,3 +108,4 @@ shopify-stores-unified-search/
 - Org ID is read from the page URL — no hardcoding needed
 - The extension only runs on Dev Dashboard Stores pages
 - This is an unpacked / local extension (not published to the Chrome Web Store)
+- Users install from source with **Load unpacked** (no Chrome Web Store listing required)
